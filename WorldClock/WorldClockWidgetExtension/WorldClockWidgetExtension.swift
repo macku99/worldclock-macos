@@ -1,7 +1,7 @@
 import WidgetKit
 import SwiftUI
 
-struct WorldClockProvider: TimelineProvider {
+struct WorldClockProvider: AppIntentTimelineProvider {
   private let store = TimezoneStore.shared
 
   func placeholder(in context: Context) -> WorldClockEntry {
@@ -16,19 +16,18 @@ struct WorldClockProvider: TimelineProvider {
     )
   }
 
-  func getSnapshot(in context: Context, completion: @escaping (WorldClockEntry) -> ()) {
-    let entry = WorldClockEntry(
+  func snapshot(for configuration: WorldClockWidgetIntent, in context: Context) async -> WorldClockEntry {
+    WorldClockEntry(
       date: Date(),
       localTimezone: .current,
-      selectedTimezones: store.selectedTimezones()
+      selectedTimezones: configuration.selectedTimezones()
     )
-    completion(entry)
   }
 
-  func getTimeline(in context: Context, completion: @escaping (Timeline<WorldClockEntry>) -> ()) {
+  func timeline(for configuration: WorldClockWidgetIntent, in context: Context) async -> Timeline<WorldClockEntry> {
     let now = Date()
     let calendar = Calendar.current
-    let timezones = store.selectedTimezones()
+    let timezones = configuration.selectedTimezones()
 
     var entries: [WorldClockEntry] = []
 
@@ -45,8 +44,7 @@ struct WorldClockProvider: TimelineProvider {
       )
     }
 
-    let timeline = Timeline(entries: entries, policy: .atEnd)
-    completion(timeline)
+    return Timeline(entries: entries, policy: .atEnd)
   }
 }
 
@@ -55,7 +53,7 @@ struct WorldClockWidget: Widget {
   let kind: String = "WorldClockWidgetExtension"
 
   var body: some WidgetConfiguration {
-    StaticConfiguration(kind: kind, provider: WorldClockProvider()) { entry in
+    AppIntentConfiguration(kind: kind, intent: WorldClockWidgetIntent.self, provider: WorldClockProvider()) { entry in
       WidgetMainView(entry: entry)
     }
     .supportedFamilies([.systemExtraLarge])
