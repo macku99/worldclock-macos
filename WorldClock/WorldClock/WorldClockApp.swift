@@ -13,5 +13,8 @@ struct WorldClockApp: App {
         WindowGroup {
             ContentView()
         }
+        .defaultSize(width: 480, height: 600)
+        .windowStyle(.titleBar)
+        .windowResizability(.contentSize)
     }
 }
