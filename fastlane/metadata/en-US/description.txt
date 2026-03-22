@@ -1,0 +1,14 @@
+WorldClock is a beautiful macOS desktop widget that displays your local time alongside world clocks for any number of cities.
+
+Key features:
+- Stunning dark glassmorphism design that looks great on any wallpaper
+- Local time displayed prominently with date and timezone info
+- Unlimited world clocks with city name, current time, GMT offset, and hour difference
+- Day-difference badges show "Tomorrow" or "Yesterday" when dates differ
+- Supports half-hour and 15-minute timezone offsets
+- Drag-to-reorder and manage your timezone list in the companion settings app
+- Searchable timezone picker grouped by region
+- Per-widget timezone customization — configure different clocks on each widget
+- Extra large widget size for maximum visibility
+- Automatic DST handling — times are always accurate
+- All timezone data is on-device — no network connection required

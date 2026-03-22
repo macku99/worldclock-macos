@@ -1,0 +1,9 @@
+Initial release of WorldClock for macOS.
+
+- Extra large desktop widget with dark glassmorphism design
+- Local time hero display with date and timezone
+- Unlimited world clocks with time difference and day badges
+- Searchable timezone picker grouped by region
+- Drag-to-reorder and delete timezones
+- Per-widget timezone configuration via Edit Widget
+- Automatic DST and half-hour/15-minute offset support

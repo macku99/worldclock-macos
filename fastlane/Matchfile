@@ -1,0 +1,5 @@
+git_url("YOUR_CERTIFICATES_REPO_URL")
+storage_mode("git")
+type("appstore")
+app_identifier(["app.itfrombit.worldclock", "app.itfrombit.worldclock.WorldClockWidgetExtension"])
+platform("macos")

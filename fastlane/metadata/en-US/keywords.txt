@@ -1,0 +1,1 @@
+world clock,timezone,widget,desktop,time zones,macOS widget,clock widget,world time,time difference,GMT offset

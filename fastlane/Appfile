@@ -1,0 +1,4 @@
+app_identifier("app.itfrombit.worldclock")
+apple_id("YOUR_APPLE_ID")
+team_id("YOUR_TEAM_ID")
+itc_team_id("YOUR_ITC_TEAM_ID")

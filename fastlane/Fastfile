@@ -1,0 +1,53 @@
+default_platform(:mac)
+
+platform :mac do
+  desc "Run tests"
+  lane :test do
+    run_tests(
+      project: "WorldClock/WorldClock.xcodeproj",
+      scheme: "WorldClock",
+      destination: "platform=macOS"
+    )
+  end
+
+  desc "Bump build number"
+  lane :bump do
+    increment_build_number(
+      xcodeproj: "WorldClock/WorldClock.xcodeproj"
+    )
+  end
+
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    match(type: "appstore")
+    bump
+    build_mac_app(
+      project: "WorldClock/WorldClock.xcodeproj",
+      scheme: "WorldClock",
+      export_method: "app-store"
+    )
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Build and submit to the App Store"
+  lane :release do
+    match(type: "appstore")
+    bump
+    build_mac_app(
+      project: "WorldClock/WorldClock.xcodeproj",
+      scheme: "WorldClock",
+      export_method: "app-store"
+    )
+    deliver(
+      skip_screenshots: true,
+      skip_metadata: false
+    )
+  end
+
+  desc "Capture screenshots"
+  lane :screenshots do
+    capture_screenshots
+  end
+end
