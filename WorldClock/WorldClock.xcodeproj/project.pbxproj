@@ -121,9 +121,7 @@
 			sourceTree = "<group>";
 		};
 		2AAAC9252F704F4E000A1D22 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-			);
+			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Shared;
 			sourceTree = "<group>";
 		};
@@ -146,6 +144,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				2AAAC8FD2F7047D7000A1D22 /* WorldClock */,
+				2AAAC9252F704F4E000A1D22 /* Shared */,
 			);
 			name = WorldClock;
 			packageProductDependencies = (
@@ -168,6 +167,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				2AAAC9132F704AAD000A1D22 /* WorldClockWidgetExtension */,
+				2AAAC9252F704F4E000A1D22 /* Shared */,
 			);
 			name = WorldClockWidgetExtensionExtension;
 			packageProductDependencies = (

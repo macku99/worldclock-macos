@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import WidgetKit
 
 final class TimezoneStore {

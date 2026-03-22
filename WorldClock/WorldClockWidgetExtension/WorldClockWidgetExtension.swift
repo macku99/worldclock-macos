@@ -45,19 +45,11 @@ struct SimpleEntry: TimelineEntry {
 
 struct WorldClockWidgetExtensionEntryView : View {
     var entry: Provider.Entry
-    @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
 
     var body: some View {
-        switch levelOfDetail {
-        case .simplified:
-            VStack {
-                Text(entry.date, style: .time)
-            }
-        default:
-            VStack {
-                Text("Time:")
-                Text(entry.date, style: .time)
-            }
+        VStack {
+            Text("Time:")
+            Text(entry.date, style: .time)
         }
     }
 }
@@ -77,9 +69,7 @@ struct WorldClockWidgetExtension: Widget {
             }
         }
         .supportedFamilies([.systemSmall])
-        .supportedMountingStyles([.elevated])
         .configurationDisplayName("My Widget")
-        .widgetTexture(.paper)
         .description("This is an example widget.")
     }
 }
