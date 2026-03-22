@@ -50,9 +50,9 @@ struct ContentView: View {
     .onAppear { timezones = store.selectedTimezones() }
     .onReceive(timer) { now = $0 }
     .sheet(isPresented: $showingTimezonePicker) {
-      // Placeholder for IT-15 timezone picker
-      Text("Timezone Picker (Coming Soon)")
-        .frame(width: 300, height: 400)
+      TimezonePickerView(
+        selectedIdentifiers: Set(timezones.map(\.timezoneIdentifier))
+      )
     }
     .onChange(of: showingTimezonePicker) {
       if !showingTimezonePicker {
