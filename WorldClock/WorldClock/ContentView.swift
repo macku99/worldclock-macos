@@ -62,20 +62,30 @@ struct ContentView: View {
   }
 
   private var localTimeHero: some View {
-    VStack(alignment: .leading, spacing: 4) {
-      Text(DateFormatters.formattedTime(for: localTimeZone, date: now))
-        .font(.system(size: 48, weight: .ultraLight, design: .rounded))
-        .foregroundStyle(Color.wcPrimary)
+    HStack(alignment: .top, spacing: 0) {
+      VStack(alignment: .leading, spacing: 2) {
+        Text(DateFormatters.formattedTime(for: localTimeZone, date: now))
+          .font(.system(size: 48, weight: .regular, design: .default))
+          .foregroundStyle(Color.wcPrimary)
 
-      Text(DateFormatters.formattedDate(for: localTimeZone, date: now))
-        .font(.system(size: 14, weight: .regular, design: .rounded))
-        .foregroundStyle(Color.wcSecondary)
+        Text("\(localTimeZone.displayName) \(DateFormatters.gmtOffset(for: localTimeZone, date: now))")
+          .font(.system(size: 13, weight: .regular, design: .default))
+          .foregroundStyle(Color.wcTertiary)
+      }
 
-      Text("\(localTimeZone.displayName) \(DateFormatters.gmtOffset(for: localTimeZone, date: now))")
-        .font(.system(size: 13, weight: .regular, design: .rounded))
-        .foregroundStyle(Color.wcTertiary)
+      Spacer()
+
+      VStack(alignment: .trailing, spacing: 0) {
+        Text(DateFormatters.formattedDayName(for: localTimeZone, date: now))
+          .font(.system(size: 13, weight: .bold, design: .default))
+          .foregroundStyle(Color.wcAccentOrange)
+
+        Text(DateFormatters.formattedDayNumber(for: localTimeZone, date: now))
+          .font(.system(size: 44, weight: .thin, design: .default))
+          .foregroundStyle(Color.wcPrimary)
+      }
     }
-    .frame(maxWidth: .infinity, alignment: .leading)
+    .frame(maxWidth: .infinity)
   }
 
   private var emptyState: some View {
@@ -85,7 +95,7 @@ struct ContentView: View {
         .font(.system(size: 40))
         .foregroundStyle(Color.wcTertiary)
       Text("Click + to add timezones")
-        .font(.system(size: 14, weight: .medium, design: .rounded))
+        .font(.system(size: 14, weight: .medium, design: .default))
         .foregroundStyle(Color.wcSecondary)
       Spacer()
     }
@@ -116,7 +126,7 @@ struct ContentView: View {
     HStack {
       VStack(alignment: .leading, spacing: 2) {
         Text(selection.fullDisplayLabel)
-          .font(.system(size: 14, weight: .medium, design: .rounded))
+          .font(.system(size: 14, weight: .medium, design: .default))
           .foregroundStyle(Color.wcPrimary)
 
         let dayLabel = selection.timeZone.map {
@@ -124,21 +134,23 @@ struct ContentView: View {
         } ?? ""
         if !dayLabel.isEmpty {
           Text(dayLabel)
-            .font(.system(size: 11, weight: .medium, design: .rounded))
-            .foregroundStyle(Color.wcAccentBlue)
+            .font(.system(size: 11, weight: .medium, design: .default))
+            .foregroundStyle(dayLabel == "Tomorrow" ? Color.wcAccentOrange : Color.wcAccentBlue)
         }
       }
 
       Spacer()
 
       if let tz = selection.timeZone {
+        let isNight = DateFormatters.isNightTime(for: tz, date: now)
+
         Text(DateFormatters.timeDifference(from: localTimeZone, to: tz, date: now))
-          .font(.system(size: 12, weight: .regular, design: .rounded))
+          .font(.system(size: 12, weight: .regular, design: .default))
           .foregroundStyle(Color.wcSecondary)
 
         Text(DateFormatters.formattedTime(for: tz, date: now))
-          .font(.system(size: 20, weight: .light, design: .rounded))
-          .foregroundStyle(Color.wcPrimary)
+          .font(.system(size: 20, weight: .medium, design: .default))
+          .foregroundStyle(isNight ? Color.wcNightTime : Color.wcPrimary)
       }
     }
     .padding(.vertical, 4)

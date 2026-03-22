@@ -68,6 +68,11 @@
 			path = WorldClockWidgetExtension;
 			sourceTree = "<group>";
 		};
+		2AAAC9252F704F4E000A1D22 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,11 +123,6 @@
 				2AAAC9112F704AAD000A1D22 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2AAAC9252F704F4E000A1D22 /* Shared */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -485,7 +485,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.itfrombit.WorldClock.WorldClockWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SDKROOT = xros;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = macosx;
@@ -524,7 +524,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.itfrombit.WorldClock.WorldClockWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SDKROOT = xros;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = macosx;

@@ -8,27 +8,20 @@ struct WorldClockRowView: View {
 
   var body: some View {
     if let remoteTimeZone = selection.timeZone {
-      HStack(alignment: .center) {
-        VStack(alignment: .leading, spacing: 2) {
-          Text("\(selection.displayName) \(DateFormatters.gmtOffset(for: remoteTimeZone, date: date))")
-            .cityNameStyle()
+      let isNight = DateFormatters.isNightTime(for: remoteTimeZone, date: date)
 
-          let dayLabel = DateFormatters.dayRelation(from: localTimeZone, to: remoteTimeZone, date: date)
-          if !dayLabel.isEmpty {
-            Text(dayLabel)
-              .font(.system(size: 11, weight: .medium, design: .rounded))
-              .foregroundStyle(Color.wcAccentBlue)
-          }
-        }
+      HStack(alignment: .center) {
+        Text("\(selection.displayName) \(DateFormatters.gmtOffset(for: remoteTimeZone, date: date))")
+          .cityNameStyle()
 
         Spacer()
 
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
           Text(DateFormatters.timeDifference(from: localTimeZone, to: remoteTimeZone, date: date))
             .captionStyle()
 
           Text(DateFormatters.formattedTime(for: remoteTimeZone, date: date))
-            .rowTimeStyle()
+            .rowTimeStyle(isNight: isNight)
         }
       }
     }

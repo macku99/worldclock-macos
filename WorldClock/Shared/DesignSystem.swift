@@ -30,6 +30,8 @@ extension Color {
   static let wcTertiary = Color.white.opacity(0.4)
   static let wcAccentBlue = Color(hex: "7EB6FF")
   static let wcAccentViolet = Color(hex: "B48EF0")
+  static let wcAccentOrange = Color(hex: "FFB74D")
+  static let wcNightTime = Color(hex: "8E9AAF")
   static let wcDivider = Color.white.opacity(0.12)
   static let wcGlassBg = Color.black.opacity(0.35)
   static let wcGlassBorder = Color.white.opacity(0.15)
@@ -40,7 +42,7 @@ extension Color {
 struct HeroTimeStyle: ViewModifier {
   func body(content: Content) -> some View {
     content
-      .font(.system(size: 64, weight: .ultraLight, design: .rounded))
+      .font(.system(size: 36, weight: .regular, design: .default))
       .foregroundStyle(Color.wcPrimary)
   }
 }
@@ -48,23 +50,25 @@ struct HeroTimeStyle: ViewModifier {
 struct CityNameStyle: ViewModifier {
   func body(content: Content) -> some View {
     content
-      .font(.system(size: 15, weight: .medium, design: .rounded))
+      .font(.system(size: 13, weight: .medium, design: .default))
       .foregroundStyle(Color.wcPrimary)
   }
 }
 
 struct RowTimeStyle: ViewModifier {
+  var isNight: Bool = false
+
   func body(content: Content) -> some View {
     content
-      .font(.system(size: 28, weight: .light, design: .rounded))
-      .foregroundStyle(Color.wcPrimary)
+      .font(.system(size: 18, weight: .medium, design: .default))
+      .foregroundStyle(isNight ? Color.wcNightTime : Color.wcPrimary)
   }
 }
 
 struct CaptionStyle: ViewModifier {
   func body(content: Content) -> some View {
     content
-      .font(.system(size: 12, weight: .regular, design: .rounded))
+      .font(.system(size: 11, weight: .regular, design: .default))
       .foregroundStyle(Color.wcSecondary)
   }
 }
@@ -78,8 +82,8 @@ extension View {
     modifier(CityNameStyle())
   }
 
-  func rowTimeStyle() -> some View {
-    modifier(RowTimeStyle())
+  func rowTimeStyle(isNight: Bool = false) -> some View {
+    modifier(RowTimeStyle(isNight: isNight))
   }
 
   func captionStyle() -> some View {

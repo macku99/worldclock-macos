@@ -14,6 +14,18 @@ enum DateFormatters {
     return formatter
   }()
 
+  private static let dayNameFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE"
+    return formatter
+  }()
+
+  private static let dayNumberFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "d"
+    return formatter
+  }()
+
   static func formattedTime(for timeZone: TimeZone, date: Date = Date()) -> String {
     let formatter = timeFormatter.copy() as! DateFormatter
     formatter.timeZone = timeZone
@@ -22,6 +34,18 @@ enum DateFormatters {
 
   static func formattedDate(for timeZone: TimeZone, date: Date = Date()) -> String {
     let formatter = dateFormatter.copy() as! DateFormatter
+    formatter.timeZone = timeZone
+    return formatter.string(from: date)
+  }
+
+  static func formattedDayName(for timeZone: TimeZone, date: Date = Date()) -> String {
+    let formatter = dayNameFormatter.copy() as! DateFormatter
+    formatter.timeZone = timeZone
+    return formatter.string(from: date).uppercased()
+  }
+
+  static func formattedDayNumber(for timeZone: TimeZone, date: Date = Date()) -> String {
+    let formatter = dayNumberFormatter.copy() as! DateFormatter
     formatter.timeZone = timeZone
     return formatter.string(from: date)
   }
@@ -57,6 +81,13 @@ enum DateFormatters {
       return "\(sign)\(hours)h"
     }
     return "\(sign)\(hours):\(String(format: "%02d", minutes))h"
+  }
+
+  static func isNightTime(for timeZone: TimeZone, date: Date = Date()) -> Bool {
+    var calendar = Calendar.current
+    calendar.timeZone = timeZone
+    let hour = calendar.component(.hour, from: date)
+    return hour < 6 || hour >= 20
   }
 
   static func dayRelation(from local: TimeZone, to remote: TimeZone, date: Date = Date()) -> String {

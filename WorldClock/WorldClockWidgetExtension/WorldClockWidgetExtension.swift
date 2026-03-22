@@ -56,7 +56,8 @@ struct WorldClockWidget: Widget {
     AppIntentConfiguration(kind: kind, intent: WorldClockWidgetIntent.self, provider: WorldClockProvider()) { entry in
       WidgetMainView(entry: entry)
     }
-    .supportedFamilies([.systemExtraLarge])
+    .supportedFamilies([.systemLarge])
+    .contentMarginsDisabled()
     .configurationDisplayName("World Clock")
     .description("Display your local time alongside world clocks.")
   }
