@@ -8,7 +8,7 @@ struct LocalClockView: View {
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
       VStack(alignment: .leading, spacing: 2) {
-        Text(DateFormatters.formattedTime(for: timeZone, date: date))
+        Text(date, style: .time)
           .heroTimeStyle()
 
         Text("\(timeZone.displayName) \(DateFormatters.gmtOffset(for: timeZone, date: date))")
@@ -21,7 +21,7 @@ struct LocalClockView: View {
       VStack(alignment: .trailing, spacing: 0) {
         Text(DateFormatters.formattedDayName(for: timeZone, date: date))
           .font(.system(size: 11, weight: .bold, design: .default))
-          .foregroundStyle(Color.wcAccentOrange)
+          .foregroundStyle(Color.wcAccentBlue)
 
         Text(DateFormatters.formattedDayNumber(for: timeZone, date: date))
           .font(.system(size: 34, weight: .thin, design: .default))

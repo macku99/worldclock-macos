@@ -29,10 +29,12 @@ struct WorldClockProvider: AppIntentTimelineProvider {
     let calendar = Calendar.current
     let timezones = configuration.selectedTimezones()
 
+    let startOfMinute = calendar.dateInterval(of: .minute, for: now)?.start ?? now
+
     var entries: [WorldClockEntry] = []
 
     for minuteOffset in 0..<60 {
-      guard let entryDate = calendar.date(byAdding: .minute, value: minuteOffset, to: now) else {
+      guard let entryDate = calendar.date(byAdding: .minute, value: minuteOffset, to: startOfMinute) else {
         continue
       }
       entries.append(

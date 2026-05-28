@@ -8,7 +8,7 @@ final class TimezoneStore {
   private let defaults: UserDefaults?
   private let storageKey = "selectedTimezones"
 
-  init(suiteName: String = "group.app.itfrombit.worldclock") {
+  init(suiteName: String = "group.app.itfrombit.worldclockapp") {
     self.defaults = UserDefaults(suiteName: suiteName)
   }
 
