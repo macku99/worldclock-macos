@@ -78,7 +78,7 @@ struct ContentView: View {
       VStack(alignment: .trailing, spacing: 0) {
         Text(DateFormatters.formattedDayName(for: localTimeZone, date: now))
           .font(.system(size: 13, weight: .bold, design: .default))
-          .foregroundStyle(Color.wcAccentOrange)
+          .foregroundStyle(Color.wcAccentBlue)
 
         Text(DateFormatters.formattedDayNumber(for: localTimeZone, date: now))
           .font(.system(size: 44, weight: .thin, design: .default))
