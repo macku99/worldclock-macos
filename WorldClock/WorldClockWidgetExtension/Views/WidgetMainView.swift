@@ -47,7 +47,7 @@ struct WidgetMainView: View {
         .font(.system(size: 32, weight: .light))
         .foregroundStyle(Color.wcTertiary)
 
-      Text("Open WorldClock to add timezones")
+      Text("Edit the widget to choose timezones")
         .font(.system(size: 13, weight: .medium, design: .default))
         .foregroundStyle(Color.wcSecondary)
         .multilineTextAlignment(.center)

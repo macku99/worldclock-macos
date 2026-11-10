@@ -1,19 +1,18 @@
 import Foundation
 import SwiftUI
-import WidgetKit
 
 final class TimezoneStore {
   static let shared = TimezoneStore()
 
-  private let defaults: UserDefaults?
+  private let defaults: UserDefaults
   private let storageKey = "selectedTimezones"
 
-  init(suiteName: String = "group.app.itfrombit.worldclockapp") {
-    self.defaults = UserDefaults(suiteName: suiteName)
+  init(defaults: UserDefaults = .standard) {
+    self.defaults = defaults
   }
 
   func selectedTimezones() -> [TimezoneSelection] {
-    guard let data = defaults?.data(forKey: storageKey),
+    guard let data = defaults.data(forKey: storageKey),
           let timezones = try? JSONDecoder().decode([TimezoneSelection].self, from: data)
     else { return [] }
     return timezones.sorted { $0.sortOrder < $1.sortOrder }
@@ -21,8 +20,7 @@ final class TimezoneStore {
 
   func save(_ timezones: [TimezoneSelection]) {
     guard let data = try? JSONEncoder().encode(timezones) else { return }
-    defaults?.set(data, forKey: storageKey)
-    WidgetCenter.shared.reloadAllTimelines()
+    defaults.set(data, forKey: storageKey)
   }
 
   func addTimezone(_ identifier: String, label: String? = nil) {

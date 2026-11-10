@@ -20,22 +20,35 @@ struct TimezoneEntity: AppEntity {
   }
 }
 
-struct TimezoneEntityQuery: EntityQuery {
+// The widget offers every zone the system knows, because a signature without a Team ID
+// cannot open an app group, so the widget has no way to read the app's list.
+struct TimezoneEntityQuery: EntityStringQuery {
   func entities(for identifiers: [String]) async throws -> [TimezoneEntity] {
-    let store = TimezoneStore.shared
-    let all = store.selectedTimezones()
-    return identifiers.compactMap { identifier in
-      all.first(where: { $0.timezoneIdentifier == identifier })
-        .map { TimezoneEntity(from: $0) }
+    let known = Set(TimeZone.knownTimeZoneIdentifiers)
+    return identifiers
+      .filter(known.contains)
+      .map { TimezoneEntity(from: TimezoneSelection(timezoneIdentifier: $0)) }
+  }
+
+  func entities(matching string: String) async throws -> [TimezoneEntity] {
+    allEntities().filter {
+      $0.displayName.localizedCaseInsensitiveContains(string)
+        || $0.id.localizedCaseInsensitiveContains(string)
     }
   }
 
   func suggestedEntities() async throws -> [TimezoneEntity] {
-    TimezoneStore.shared.selectedTimezones().map { TimezoneEntity(from: $0) }
+    allEntities()
   }
 
   func defaultResult() async -> TimezoneEntity? {
     nil
+  }
+
+  private func allEntities() -> [TimezoneEntity] {
+    TimeZone.knownTimeZoneIdentifiers
+      .map { TimezoneEntity(from: TimezoneSelection(timezoneIdentifier: $0)) }
+      .sorted { $0.displayName.localizedStandardCompare($1.displayName) == .orderedAscending }
   }
 }
 
@@ -47,16 +60,8 @@ struct WorldClockWidgetIntent: WidgetConfigurationIntent {
   var timezones: [TimezoneEntity]?
 
   func selectedTimezones() -> [TimezoneSelection] {
-    let store = TimezoneStore.shared
-    let allTimezones = store.selectedTimezones()
-
-    guard let selected = timezones, !selected.isEmpty else {
-      return allTimezones
-    }
-
-    let selectedIds = selected.map(\.id)
-    return selectedIds.compactMap { id in
-      allTimezones.first(where: { $0.timezoneIdentifier == id })
+    (timezones ?? []).enumerated().map { index, entity in
+      TimezoneSelection(timezoneIdentifier: entity.id, sortOrder: index)
     }
   }
 }

@@ -2,8 +2,6 @@ import WidgetKit
 import SwiftUI
 
 struct WorldClockProvider: AppIntentTimelineProvider {
-  private let store = TimezoneStore.shared
-
   func placeholder(in context: Context) -> WorldClockEntry {
     WorldClockEntry(
       date: Date(),
