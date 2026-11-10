@@ -46,3 +46,28 @@ struct TimezoneSelection: Codable, Identifiable, Hashable {
     "\(displayName) \(gmtOffsetLabel)"
   }
 }
+
+extension Array where Element == TimezoneSelection {
+  /// West to east by the offset in effect at `date`, so the list reads like a map; zones with
+  /// the same offset go by name, and an identifier the system doesn't know goes last.
+  func sortedByOffset(at date: Date) -> [TimezoneSelection] {
+    sorted { lhs, rhs in
+      switch (lhs.timeZone?.secondsFromGMT(for: date), rhs.timeZone?.secondsFromGMT(for: date)) {
+      case let (left?, right?) where left != right:
+        return left < right
+      case (.some, .some):
+        return lhs.displayName.localizedStandardCompare(rhs.displayName) == .orderedAscending
+      case (.some, nil):
+        return true
+      case (nil, _):
+        return false
+      }
+    }
+    .enumerated()
+    .map { index, selection in
+      var selection = selection
+      selection.sortOrder = index
+      return selection
+    }
+  }
+}
