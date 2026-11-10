@@ -15,17 +15,18 @@ struct WorldClockProvider: AppIntentTimelineProvider {
   }
 
   func snapshot(for configuration: WorldClockWidgetIntent, in context: Context) async -> WorldClockEntry {
-    WorldClockEntry(
-      date: Date(),
+    let now = Date()
+    return WorldClockEntry(
+      date: now,
       localTimezone: .current,
-      selectedTimezones: configuration.selectedTimezones()
+      selectedTimezones: configuration.selectedTimezones(at: now)
     )
   }
 
   func timeline(for configuration: WorldClockWidgetIntent, in context: Context) async -> Timeline<WorldClockEntry> {
     let now = Date()
     let calendar = Calendar.current
-    let timezones = configuration.selectedTimezones()
+    let timezones = configuration.selectedTimezones(at: now)
 
     let startOfMinute = calendar.dateInterval(of: .minute, for: now)?.start ?? now
 

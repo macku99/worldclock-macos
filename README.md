@@ -1,6 +1,6 @@
 # WorldClock
 
-A macOS app and a large desktop widget that show the local time beside a list of other timezones. The app keeps its own list; each widget picks its timezones in Edit Widget (Control-click the widget). They don't share a list because sharing needs an app group, and macOS refuses a group container to an app whose signature carries no Team ID, which a self-signed certificate never does.
+A macOS app and a large desktop widget that show the local time beside a list of other timezones. The app keeps its own list; each widget picks its timezones by ID (such as `Asia/Tokyo`) in Edit Widget (Control-click the widget) and lists them west to east by their current offset. They don't share a list because sharing needs an app group, and macOS refuses a group container to an app whose signature carries no Team ID, which a self-signed certificate never does.
 
 ## Layout
 
