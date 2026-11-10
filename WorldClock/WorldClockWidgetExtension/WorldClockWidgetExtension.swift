@@ -1,7 +1,9 @@
 import WidgetKit
 import SwiftUI
 
-struct WorldClockProvider: AppIntentTimelineProvider {
+struct WorldClockProvider: TimelineProvider {
+  private let store = TimezoneStore.shared
+
   func placeholder(in context: Context) -> WorldClockEntry {
     WorldClockEntry(
       date: Date(),
@@ -14,19 +16,21 @@ struct WorldClockProvider: AppIntentTimelineProvider {
     )
   }
 
-  func snapshot(for configuration: WorldClockWidgetIntent, in context: Context) async -> WorldClockEntry {
+  func getSnapshot(in context: Context, completion: @escaping (WorldClockEntry) -> Void) {
     let now = Date()
-    return WorldClockEntry(
-      date: now,
-      localTimezone: .current,
-      selectedTimezones: configuration.selectedTimezones(at: now)
+    completion(
+      WorldClockEntry(
+        date: now,
+        localTimezone: .current,
+        selectedTimezones: store.selectedTimezones().sortedByOffset(at: now)
+      )
     )
   }
 
-  func timeline(for configuration: WorldClockWidgetIntent, in context: Context) async -> Timeline<WorldClockEntry> {
+  func getTimeline(in context: Context, completion: @escaping (Timeline<WorldClockEntry>) -> Void) {
     let now = Date()
     let calendar = Calendar.current
-    let timezones = configuration.selectedTimezones(at: now)
+    let timezones = store.selectedTimezones().sortedByOffset(at: now)
 
     let startOfMinute = calendar.dateInterval(of: .minute, for: now)?.start ?? now
 
@@ -45,7 +49,7 @@ struct WorldClockProvider: AppIntentTimelineProvider {
       )
     }
 
-    return Timeline(entries: entries, policy: .atEnd)
+    completion(Timeline(entries: entries, policy: .atEnd))
   }
 }
 
@@ -54,7 +58,7 @@ struct WorldClockWidget: Widget {
   let kind: String = "WorldClockWidgetExtension"
 
   var body: some WidgetConfiguration {
-    AppIntentConfiguration(kind: kind, intent: WorldClockWidgetIntent.self, provider: WorldClockProvider()) { entry in
+    StaticConfiguration(kind: kind, provider: WorldClockProvider()) { entry in
       WidgetMainView(entry: entry)
     }
     .supportedFamilies([.systemLarge])

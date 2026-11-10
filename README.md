@@ -1,10 +1,10 @@
 # WorldClock
 
-A macOS app and a large desktop widget that show the local time beside a list of other timezones. The app keeps its own list; each widget picks its timezones by ID (such as `Asia/Tokyo`) in Edit Widget (Control-click the widget) and lists them west to east by their current offset. They don't share a list because sharing needs an app group, and macOS refuses a group container to an app whose signature carries no Team ID, which a self-signed certificate never does.
+A macOS app and a large desktop widget that show the local time beside a list of other timezones. You add zones one at a time with + in the app; the widget shows the same list, west to east by each zone's current offset. The two share it through `~/Library/Application Support/WorldClock/timezones.json`, which the app's sandbox may write and the widget's may read through a temporary exception. An app group would be the usual way, but macOS refuses a group container to an app whose signature carries no Team ID, which a self-signed certificate never does.
 
 ## Layout
 
-- `WorldClock/WorldClock` is the app and its timezone store, `WorldClock/WorldClockWidgetExtension` the widget, and `WorldClock/Shared` the model and formatters both compile.
+- `WorldClock/WorldClock` is the app, `WorldClock/WorldClockWidgetExtension` the widget, and `WorldClock/Shared` the model, the timezone store and the formatters both compile.
 - `scripts/` builds, installs and updates the app; `fastlane/Fastfile` wraps the update.
 
 ## Install
@@ -27,7 +27,7 @@ scripts/install.sh
 
 `scripts/build-app.sh` runs a Release `xcodebuild` into `dist/WorldClock.noindex/` (the `.noindex` folder keeps Spotlight from listing a second WorldClock), signs the app and its widget, and verifies the signature. `scripts/install.sh` refuses a build whose app or widget is signed by anything other than "WorldClock Local", quits the running app, swaps the build into `~/Applications/WorldClock.app`, stops the old widget process and opens the app. It then unregisters and removes the build, so each install needs a fresh `scripts/build-app.sh`. `SIGNING_IDENTITY=-` signs ad hoc for a local check; `scripts/install.sh` refuses such a build.
 
-Add the widget from the desktop's Edit Widgets, then Control-click it and choose Edit "World Clock" to pick its timezones.
+Add the widget from the desktop's Edit Widgets; it shows the zones added in the app.
 
 ## Update to the latest main
 
