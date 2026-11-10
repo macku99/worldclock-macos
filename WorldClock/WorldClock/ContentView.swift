@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
   @State private var timezones: [TimezoneSelection] = []
   @State private var showingTimezonePicker = false
+  @State private var selectedIDs: Set<UUID> = []
   @State private var now = Date()
 
   private let store = TimezoneStore.shared
@@ -103,23 +104,36 @@ struct ContentView: View {
   }
 
   private var timezoneList: some View {
-    List {
+    List(selection: $selectedIDs) {
       ForEach(timezones) { selection in
         timezoneRow(selection)
           .listRowSeparator(.visible)
+          .contextMenu {
+            Button("Remove", role: .destructive) {
+              removeTimezones([selection.id])
+            }
+          }
       }
       .onMove { source, destination in
         store.reorder(from: source, to: destination)
         timezones = store.selectedTimezones()
       }
       .onDelete { offsets in
-        for index in offsets {
-          store.removeTimezone(id: timezones[index].id)
-        }
-        timezones = store.selectedTimezones()
+        removeTimezones(Set(offsets.map { timezones[$0].id }))
       }
     }
     .listStyle(.inset)
+    .onDeleteCommand {
+      removeTimezones(selectedIDs)
+    }
+  }
+
+  private func removeTimezones(_ ids: Set<UUID>) {
+    for id in ids {
+      store.removeTimezone(id: id)
+    }
+    selectedIDs.subtract(ids)
+    timezones = store.selectedTimezones()
   }
 
   private func timezoneRow(_ selection: TimezoneSelection) -> some View {

@@ -1,6 +1,6 @@
 # WorldClock
 
-A macOS app and a large desktop widget that show the local time beside a list of other timezones. You add zones one at a time with + in the app; the widget shows the same list, west to east by each zone's current offset. The two share it through `~/Library/Application Support/WorldClock/timezones.json`, which the app's sandbox may write and the widget's may read through a temporary exception. An app group would be the usual way, but macOS refuses a group container to an app whose signature carries no Team ID, which a self-signed certificate never does.
+A macOS app and a large desktop widget that show the local time beside a list of other timezones. You add zones one at a time with + in the app and remove one with Control-click › Remove or by selecting it and pressing Delete; the widget shows the same list, west to east by each zone's current offset. The two share it through `~/Library/Application Support/WorldClock/timezones.json`, which the app's sandbox may write and the widget's may read through a temporary exception. An app group would be the usual way, but macOS refuses a group container to an app whose signature carries no Team ID, which a self-signed certificate never does.
 
 ## Layout
 
