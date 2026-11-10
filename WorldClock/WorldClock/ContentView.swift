@@ -123,9 +123,6 @@ struct ContentView: View {
       }
     }
     .listStyle(.inset)
-    .onDeleteCommand {
-      removeTimezones(selectedIDs)
-    }
   }
 
   private func removeTimezones(_ ids: Set<UUID>) {
