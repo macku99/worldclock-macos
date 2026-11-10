@@ -7,6 +7,7 @@ DerivedData/
 # Build
 .build/
 build/
+dist/
 
 # CocoaPods
 Pods/
@@ -14,8 +15,12 @@ Pods/
 # Fastlane
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/screenshots/**/*.png
 fastlane/test_output
+fastlane/.env
+
+# Bundler
+.bundle/
+vendor/bundle/
 
 # macOS
 .DS_Store
