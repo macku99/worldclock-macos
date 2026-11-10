@@ -4,7 +4,7 @@ A macOS app and a large desktop widget that show the local time beside a list of
 
 ## Layout
 
-- `WorldClock/WorldClock` is the app, `WorldClock/WorldClockWidgetExtension` the widget, and `WorldClock/Shared` the model and formatters both compile.
+- `WorldClock/WorldClock` is the app and its timezone store, `WorldClock/WorldClockWidgetExtension` the widget, and `WorldClock/Shared` the model and formatters both compile.
 - `scripts/` builds, installs and updates the app; `fastlane/Fastfile` wraps the update.
 
 ## Install

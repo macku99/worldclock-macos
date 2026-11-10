@@ -25,8 +25,14 @@ xcodebuild -project WorldClock/WorldClock.xcodeproj -scheme WorldClock -configur
   OTHER_CODE_SIGN_FLAGS="--timestamp=none" \
   build
 
+product="$derived_data/Build/Products/Release/WorldClock.app"
 rm -rf "$app"
-ditto "$derived_data/Build/Products/Release/WorldClock.app" "$app"
+ditto "$product" "$app"
 codesign --verify --deep --strict "$app"
+
+# xcodebuild registers its product with Launch Services, and with it the widget. Left registered,
+# the system may load the widget from DerivedData instead of the installed app.
+"/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister" \
+  -u "$product" >/dev/null 2>&1 || true
 
 echo "Built and verified $repo_root/$app (signed by $identity)"
